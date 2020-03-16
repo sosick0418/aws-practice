@@ -5,4 +5,4 @@ services:
   - mysql
 before_script:
   - mysql -u root --password="" < server/schema.sql
-  - npm start
+  - npm start &
