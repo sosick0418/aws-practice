@@ -11,3 +11,14 @@ const host = "localhost";
 // 연결에 필요한 몇가지 정보가 있습니다. 먼저 user는 root, 패스워드는 위 password 변수를 사용하세요.
 // 그리고 실제로 연결할 데이터베이스의 위치(host)는 host 변수를 사용하세요.
 // 데이터베이스 이름(database)은 "chat"로 지정하세요.
+
+let connection = mysql.createConnection({
+  host,
+  user: "root",
+  password,
+  database: "chat"
+});
+
+connection.connect();
+
+module.exports = connection;
