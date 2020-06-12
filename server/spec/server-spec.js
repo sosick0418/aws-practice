@@ -6,10 +6,10 @@ const request = require("request"); // You might need to npm install the request
 const expect = require("chai").expect;
 
 describe("Sprint-database", () => {
-  describe("Persistent Node Chat Server", function() {
+  describe("Persistent Node Chat Server", function () {
     var dbConnection;
 
-    beforeEach(function(done) {
+    beforeEach(function (done) {
       dbConnection = mysql.createConnection({
         user: "root",
         password: process.env.DATABASE_SPRINT_PASSWORD,
@@ -24,11 +24,11 @@ describe("Sprint-database", () => {
       dbConnection.query("truncate " + tablename, done);
     });
 
-    afterEach(function() {
+    afterEach(function () {
       dbConnection.end();
     });
 
-    it("Should insert posted messages to the DB", function(done) {
+    it("Should insert posted messages to the DB", function (done) {
       // Post the user to the chat server.
       request(
         {
@@ -36,7 +36,7 @@ describe("Sprint-database", () => {
           uri: "http://127.0.0.1:3000/classes/users",
           json: { username: "Valjean" }
         },
-        function() {
+        function () {
           // Post a message to the node chat server:
           request(
             {
@@ -48,7 +48,7 @@ describe("Sprint-database", () => {
                 roomname: "Hello"
               }
             },
-            function() {
+            function () {
               // Now if we look in the database, we should find the
               // posted message there.
 
@@ -57,7 +57,7 @@ describe("Sprint-database", () => {
               var queryString = "SELECT * FROM messages";
               var queryArgs = [];
 
-              dbConnection.query(queryString, queryArgs, function(
+              dbConnection.query(queryString, queryArgs, function (
                 err,
                 results
               ) {
@@ -76,7 +76,7 @@ describe("Sprint-database", () => {
       );
     });
 
-    it("Should output all messages from the DB", function(done) {
+    it("Should output all messages from the DB", function (done) {
       // Let's insert a message into the db
       var queryString =
         "INSERT INTO messages(roomname, userid, text) values(?,?,?)";
@@ -85,14 +85,14 @@ describe("Sprint-database", () => {
       // here depend on the schema you design, so I'll leave
       // them up to you. */
 
-      dbConnection.query(queryString, queryArgs, function(err) {
+      dbConnection.query(queryString, queryArgs, function (err) {
         if (err) {
           throw err;
         }
 
         // Now query the Node chat server and see if it returns
         // the message we just inserted:
-        request("http://127.0.0.1:3000/classes/messages", function(
+        request("http://127.0.0.1:3000/classes/messages", function (
           error,
           response,
           body
